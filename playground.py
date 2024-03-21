@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+from os import getenv
+
+HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
+HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
+HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
+HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
+HBNB_TYPE_STORAGE=getenv('HBNB_TYPE_STORAGE')
+HBNB_ENV = getenv('HBNB_ENV')
+
+print(HBNB_MYSQL_USER)
+print(HBNB_MYSQL_PWD)
+print(HBNB_MYSQL_HOST)
+print(HBNB_MYSQL_DB)
+print(HBNB_ENV)
+print(HBNB_TYPE_STORAGE)
