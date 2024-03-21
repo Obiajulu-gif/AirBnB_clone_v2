@@ -1,82 +1,50 @@
 #!/usr/bin/python3
-"""Database storage"""
-from models.base_model import BaseModel, Base
-from models.amenity import Amenity
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-from models.user import User
-from sqlalchemy import (create_engine)
-from sqlalchemy.orm import sessionmaker, relationship, scoped_session
-from os import getenv
+"""This module defines a class to manage file storage for hbnb clone"""
+import json
 
 
-class DBStorage:
-    """Database storage class
-    Attributes: __engine, __session
-    """
-    __engine = None
-    __session = None
+class FileStorage:
+    """This class manages storage of hbnb models in JSON format"""
+    __file_path = 'file.json'
+    __objects = {}
 
-    def __init__(self):
-        """Creates the engine"""
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                      .format(getenv('HBNB_MYSQL_USER'),
-                                              getenv('HBNB_MYSQL_PWD'),
-                                              getenv('HBNB_MYSQL_HOST'),
-                                              getenv('HBNB_MYSQL_DB')),
-                                      pool_pre_ping=True)
-        if getenv('HBNB_ENV') == 'test':
-            Base.metadata.drop_all(bind=self.__engine)
-
-    def all(self, cls=None):
-        """Method that queries on the currect database session"""
-        objects_dictionary = {}
-
-        if cls is None:
-            objects_list = self.__session.query(State).all()
-            objects_list.extend(self.__session.query(City).all())
-            objects_list.extend(self.__session.query(User).all())
-            objects_list.extend(self.__session.query(Place).all())
-            objects_list.extend(self.__session.query(Review).all())
-            objects_list.extend(self.__session.query(Amenity).all())
-        else:
-            if type(cls) == str:
-                cls = eval(cls)
-            objects_list = self.__session.query(cls).all()
-
-        for obj in objects_list:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            objects_dictionary[key] = obj
-
-        return objects_dictionary
+    def all(self):
+        """Returns a dictionary of models currently in storage"""
+        return FileStorage.__objects
 
     def new(self, obj):
-        """Method that adds the object to the current database session"""
-        self.__session.add(obj)
+        """Adds new object to storage dictionary"""
+        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
-        """Method that commits all changes of the current database session"""
-
-        self.__session.commit()
-
-    def delete(self, obj=None):
-        """Method that deletes from the current database
-        session obj if not None"""
-
-        if obj:
-            self.__session.delete(obj)
+        """Saves storage dictionary to file"""
+        with open(FileStorage.__file_path, 'w') as f:
+            temp = {}
+            temp.update(FileStorage.__objects)
+            for key, val in temp.items():
+                temp[key] = val.to_dict()
+            json.dump(temp, f)
 
     def reload(self):
-        """Method that creates all tables in the database"""
+        """Loads storage dictionary from file"""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
 
-        Base.metadata.create_all(self.__engine)
-        my_session = sessionmaker(bind=self.__engine,
-                                  expire_on_commit=False)
-        Session = scoped_session(my_session)
-        self.__session = Session()
-
-    def close(self):
-        """Method that closes the session"""
-        self.__session.close()
+        classes = {
+                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review
+                  }
+        try:
+            temp = {}
+            with open(FileStorage.__file_path, 'r') as f:
+                temp = json.load(f)
+                for key, val in temp.items():
+                        self.all()[key] = classes[val['__class__']](**val)
+        except FileNotFoundError:
+            pass
