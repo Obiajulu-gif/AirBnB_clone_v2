@@ -7,6 +7,7 @@ from models.city import City
 from models.base_model import BaseModel
 import pep8
 
+
 class TestCity(unittest.TestCase):
     """Test the City class
     """
@@ -15,7 +16,8 @@ class TestCity(unittest.TestCase):
         """
         style = pep8.StyleGuide(quiet=True)
         result = style.check_files(['models/city.py'])
-        self.assertEqual(result.total_errors, 0, "Found code style errors (and warnings).")
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
 
     def test_docstring(self):
         """Test for docstrings
@@ -57,4 +59,3 @@ class TestCity(unittest.TestCase):
         city = City()
         string = "[City] ({}) {}".format(city.id, city.__dict__)
         self.assertEqual(string, str(city))
-    

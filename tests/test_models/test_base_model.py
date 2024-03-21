@@ -7,6 +7,7 @@ import os
 from models.base_model import BaseModel
 import pep8
 
+
 class TestBaseModel(unittest.TestCase):
     """Test the BaseModel class
     """
@@ -15,7 +16,8 @@ class TestBaseModel(unittest.TestCase):
         """
         style = pep8.StyleGuide(quiet=True)
         result = style.check_files(['models/base_model.py'])
-        self.assertEqual(result.total_errors, 0, "Found code style errors (and warnings).")
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
 
     def test_docstring(self):
         """Test for docstrings
@@ -54,5 +56,6 @@ class TestBaseModel(unittest.TestCase):
         """Test the __str__ method
         """
         base_model = BaseModel()
-        string = "[BaseModel] ({}) {}".format(base_model.id, base_model.__dict__)
+        string = "[BaseModel] ({}) {}".format(base_model.id,
+                                              base_model.__dict__)
         self.assertEqual(string, str(base_model))

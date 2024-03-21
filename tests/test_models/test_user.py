@@ -7,6 +7,7 @@ from models.user import User
 from models.base_model import BaseModel
 import pep8
 
+
 class TestUser(unittest.TestCase):
     """Test the User class
     """
@@ -15,7 +16,8 @@ class TestUser(unittest.TestCase):
         """
         style = pep8.StyleGuide(quiet=True)
         result = style.check_files(['models/user.py'])
-        self.assertEqual(result.total_errors, 0, "Found code style errors (and warnings).")
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
 
     def test_docstring(self):
         """Test for docstrings

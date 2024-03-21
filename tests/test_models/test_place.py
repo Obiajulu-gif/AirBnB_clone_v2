@@ -7,6 +7,7 @@ from models.place import Place
 from models.base_model import BaseModel
 import pep8
 
+
 class TestPlace(unittest.TestCase):
     """Test the Place class
     """
@@ -15,7 +16,8 @@ class TestPlace(unittest.TestCase):
         """
         style = pep8.StyleGuide(quiet=True)
         result = style.check_files(['models/place.py'])
-        self.assertEqual(result.total_errors, 0, "Found code style errors (and warnings).")
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
 
     def test_docstring(self):
         """Test for docstrings
