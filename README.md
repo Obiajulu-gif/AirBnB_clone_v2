@@ -1,64 +1,114 @@
-HolbertonBnB is a complete RESTful web application, integrating file and database (MySQL) storage in a back-end API with front-end interfacing in a clone of AirBnB. The front-end is designed using HTML5/CSS3 and is served using Python Flask. The application is configured on a distributed system - two web servers and one load balancer - with Nginx and HAProxy.
+HBNB - The Console
+This repository contains the initial stage of a student project to build a clone of the AirBnB website. This stage implements a backend interface, or console, to manage program data. Console commands allow the user to create, update, and destroy objects, as well as manage file storage. Using a system of JSON serialization/deserialization, storage is persistent between sessions.
 
-HolbertonBnB is still in active development, with complete functionality set to deploy in the coming month:
+Repository Contents by Project Task
+Tasks	Files	Description
+0: Authors/README File	AUTHORS	Project authors
+1: Pep8	N/A	All code is pep8 compliant
+2: Unit Testing	/tests	All class-defining modules are unittested
+3. Make BaseModel	/models/base_model.py	Defines a parent class to be inherited by all model classes
+4. Update BaseModel w/ kwargs	/models/base_model.py	Add functionality to recreate an instance of a class from a dictionary representation
+5. Create FileStorage class	/models/engine/file_storage.py /models/_ init _.py /models/base_model.py	Defines a class to manage persistent file storage system
+6. Console 0.0.1	console.py	Add basic functionality to console program, allowing it to quit, handle empty lines and ^D
+7. Console 0.1	console.py	Update the console with methods allowing the user to create, destroy, show, and update stored data
+8. Create User class	console.py /models/engine/file_storage.py /models/user.py	Dynamically implements a user class
+9. More Classes	/models/user.py /models/place.py /models/city.py /models/amenity.py /models/state.py /models/review.py	Dynamically implements more classes
+10. Console 1.0	console.py /models/engine/file_storage.py	Update the console and file storage system to work dynamically with all classes update file storage
 
-Complete integration of a RESTful API Full configuration of website with domain name Serving of dynamic content using JavaScript HolbertonBnB stack
+General Use
+First clone this repository.
 
-NOTE TO 2019 LYFT SOFTWARE ENGINEERING APPRENTICESHIP RECRUITER This web app has been the capstone project of my full-stack education at Holberton School and I want to show it off as a demonstration of all the skills I've learned at this school.
+Once the repository is cloned locate the "console.py" file and run it as follows:
 
-With that said, I must clarify that it is not complete. As mentioned, the clone is a work-in-progress, with full deployment as a RESTful API still to come. Finishing touches will be occurring over the next month, my final at Holberton.
+/AirBnB_clone$ ./console.py
+When this command is run the following prompt should appear:
+(hbnb)
+This prompt designates you are in the "HBnB" console. There are a variety of commands available within the console program.
+Commands
+* create - Creates an instance based on given class
 
-Recognizing that I am sharing a near-complete project, I additionally put together a small Flask app according to the specifications described in the application. Please take a look at this separate repository here:
+* destroy - Destroys an object based on class and UUID
 
-https://github.com/bdbaraban/lyft_apprenticeship_application
+* show - Shows an object based on class and UUID
 
-Nonetheless, allow me to talk a little more about this AirBnB clone. This repository is the second iteration of the project. In the first version (viewable here), I, together with a cohort mate, built up the initial file storage back-end and console from scratch. We pair programmed for most all of this version one work.
+* all - Shows all objects the program has access to, or all objects of a given class
 
-In this second iteration of the project, I, together with a new partner, inherited a different version of the same back-end written by a pair of Holberton students from an older cohort. We then pair programmed to build up the database storage engine of the back-end.
+* update - Updates existing attributes an object based on class name and UUID
 
-In between each version, I put together an entire CSS-styled HTML web page for the project. This front-end development was coded independently, although the HTML files I personally wrote are only posted in version one (the web_static folder in this directory was included in the fork). Addtionally, all Shell, Puppet, and Fabric deployment scripts/manifests were coded myself.
+* quit - Exits the program (EOF will as well)
+Alternative Syntax
+Users are able to issue a number of console command using an alternative syntax:
 
-The README's in both repositories were almost exclusively written myself.
+Usage: <class_name>.<command>([<id>[name_arg value_arg]|[kwargs]])
+Advanced syntax is implemented for the following commands:
 
-I hope this helps clear things up. I apologize for the confusing versioning, but the takeaway is that I've been directly involved in coding at least an implementation of everything in this repository. And hey, software development is no fun without some confusing version control, right? 😅 😭
+* all - Shows all objects the program has access to, or all objects of a given class
 
-Please let me know if you have any questions!
+* count - Return number of object instances by class
 
-Static 📄 The front-end of HolbertonBnB was designed from scratch using HTML5/CSS3 pages integrated using Flask. While the front-end has not yet been officially deployed, screenshots are viewable in the README of the web_flask directory.
+* show - Shows an object based on class and UUID
 
-Classes 🆑 HolbertonBnB supports the following classes:
+* destroy - Destroys an object based on class and UUID
 
-BaseModel User State City Amenity Place Review Storage 🛄 The above classes are handled by one of either two abstracted storage engines, depending on the call - FileStorage or DBStorage.
+* update - Updates existing attributes an object based on class name and UUID
 
-FileStorage The default mode.
 
-In FileStorage mode, every time the backend is initialized, HolbertonBnB instantiates an instance of FileStorage called storage. The storage object is loaded/re-loaded from any class instances stored in the JSON file file.json. As class instances are created, updated, or deleted, the storage object is used to register corresponding changes in the file.json.
+Examples
+Primary Command Syntax
+Example 0: Create an object
+Usage: create <class_name>
 
-DBStorage Run by setting the environmental variables HBNB_TYPE_STORAGE=db.
+(hbnb) create BaseModel
+(hbnb) create BaseModel
+3aa5babc-efb6-4041-bfe9-3cc9727588f8
+(hbnb)                   
+Example 1: Show an object
+Usage: show <class_name> <_id>
 
-In DBStorage mode, every time the backend is initialized, HolbertonBnB instantiates an instance of DBStorage called storage. The storage object is loaded/re-loaded from the MySQL database specified in the environmental variable HBNB_MYSQL_DB, using the user HBNB_MYSQL_USER, password HBNB_MYSQL_PWD, and host HBNB_MYSQL_HOST. As class instances are created, updated, or deleted, the storage object is used to register changes in the corresponding MySQL database. Connection and querying is achieved using SQLAlchemy.
+(hbnb) show BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
+[BaseModel] (3aa5babc-efb6-4041-bfe9-3cc9727588f8) {'id': '3aa5babc-efb6-4041-bfe9-3cc9727588f8', 'created_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96959), 
+'updated_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96971)}
+(hbnb)  
+Example 2: Destroy an object
+Usage: destroy <class_name> <_id>
 
-Note that the databases specified for DBStorage to connect to must already be defined on the MySQL server. This repository includes scripts setup_mysql_dev.sql and setup_mysql_test.sql to set up hbnb_dev_db and hbnb_test_db databases in a MySQL server, respectively.
+(hbnb) destroy BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
+(hbnb) show BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
+** no instance found **
+(hbnb)   
+Example 3: Update an object
+Usage: update <class_name> <_id>
 
-Console 💻 The console is a command line interpreter that permits management of the backend of HolbertonBnB. It can be used to handle and manipulate all classes utilized by the application (achieved by calls on the storage object defined above).
+(hbnb) update BaseModel b405fc64-9724-498f-b405-e4071c3d857f first_name "person"
+(hbnb) show BaseModel b405fc64-9724-498f-b405-e4071c3d857f
+[BaseModel] (b405fc64-9724-498f-b405-e4071c3d857f) {'id': 'b405fc64-9724-498f-b405-e4071c3d857f', 'created_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729889), 
+'updated_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729907), 'first_name': 'person'}
+(hbnb)
+Alternative Syntax
+Example 0: Show all User objects
+Usage: <class_name>.all()
 
-Using the Console The HolbertonBnB console can be run both interactively and non-interactively. To run the console in non-interactive mode, pipe any command(s) into an execution of the file console.py at the command line.
+(hbnb) User.all()
+["[User] (99f45908-1d17-46d1-9dd2-b7571128115b) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 34, 92071), 'id': '99f45908-1d17-46d1-9dd2-b7571128115b', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 34, 92056)}", "[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
+Example 1: Destroy a User
+Usage: <class_name>.destroy(<_id>)
 
-$ echo "help" | ./console.py (hbnb) Documented commands (type help ):
-EOF all count create destroy help quit show update
+(hbnb) User.destroy("99f45908-1d17-46d1-9dd2-b7571128115b")
+(hbnb)
+(hbnb) User.all()
+(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
+Example 2: Update User (by attribute)
+Usage: <class_name>.update(<_id>, <attribute_name>, <attribute_value>)
 
-(hbnb) $ Alternatively, to use the HolbertonBnB console in interactive mode, run the file console.py by itself:
+(hbnb) User.update("98bea5de-9cb0-4d78-8a9d-c4de03521c30", name "Todd the Toad")
+(hbnb)
+(hbnb) User.all()
+(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'name': 'Todd the Toad', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
+Example 3: Update User (by dictionary)
+Usage: <class_name>.update(<_id>, )
 
-$ ./console.py Remember, the console can be run with storage instantiated in either FileStorage or DBStorage mode. The above examples instantiate FileStorage by default, but DBStorage can be instantiated like so:
+(hbnb) User.update("98bea5de-9cb0-4d78-8a9d-c4de03521c30", {'name': 'Fred the Frog', 'age': 9})
+(hbnb)
+(hbnb) User.all()
+(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'name': 'Fred the Frog', 'age': 9, 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
 
-$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db ./console.py The console functions identically regardless of the storage mode.
-
-While running in interactive mode, the console displays a prompt for input:
-
-$ ./console.py (hbnb) To quit the console, enter the command quit, or input an EOF signal (ctrl-D).
-
-$ ./console.py (hbnb) quit $ $ ./console.py (hbnb) EOF $ Console Commands The HolbertonBnB console supports the following commands:
-
-create Usage: create <param 1 name>=<param 1 value> <param 2 name>=<param 2 value> ... Creates a new instance of a given class. The class' ID is printed and the instance is saved to the file file.json. When passing parameter key/value pairs, any underscores contained in value strings are replaced by spaces.
-
-$ ./console.py (hbnb) create BaseModel 119be863-6fe5-437e-a180-b9892e8746b8 (hbnb) (hbnb) create State name="California" (hbnb) quit $ cat file.json ; echo "" {"BaseModel.119be863-6fe5-437e-a180-b9892e8746b8": {"updated_at": "2019-02-17T2 1:30:42.215277", "created_at": "2019-02-17T21:30:42.215277", "class": "Base Model", "id": "119be863-6fe5-437e-a180-b9892e8746b8"}, {'id': 'd80e0344-63eb-43 4a-b1e0-07783522124e', 'created_at': datetime.datetime(2017, 11, 10, 4, 41, 7, 842160), 'updated_at': datetime.datetime(2017, 11, 10, 4, 41, 7, 842235), 'name ': 'California'}} show Usage: show or .show() Prints the string representation of a class instance based on a given id.
