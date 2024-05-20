@@ -67,7 +67,7 @@ def python_text(text="is cool"):
     return "Python {}".format(text.replace("_", " "))
 
 
-@app.route('/number/<n>')
+@app.route('/number/<int:n>')
 def number_n(n):
     """
     A Flask route decorator that handles requests to
@@ -81,11 +81,7 @@ def number_n(n):
         can be converted to an integer,
         otherwise the string "{n} is not a number".
     """
-    try:
-        n = int(n)
-        return "{} is a number".format(n)
-    except ValueError:
-        return "{} is not a number".format(n)
+    return "{} is a number".format(n)
 
 
 if __name__ == '__main__':
