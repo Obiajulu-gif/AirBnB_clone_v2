@@ -50,7 +50,7 @@ def c_text(text):
     return "C {}".format(text.replace("_", " "))
 
 
-@app.route('/python/<text>')
+@app.route('/python/<text>', strict_slashes=False)
 def python_text(text):
     """
     A Flask route decorator that handles requests to the
