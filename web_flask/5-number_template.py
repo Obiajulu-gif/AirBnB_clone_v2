@@ -91,7 +91,7 @@ def number_template(n):
     '/number_template/<int:n>' endpoint.
 
     Args:
-        n (int): The number parameter from the URL.
+        n (int): The number parameter from the URL .
 
     Returns:
         str: The rendered HTML template '5-number.html'
