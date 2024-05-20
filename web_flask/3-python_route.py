@@ -61,7 +61,7 @@ def python_text(text="is cool"):
 
     Returns:
         str: The string "Python {text}", where {text} is
-        the input text with underscores replaced by spaces .
+        the input text with underscores replaced by spaces.
     """
     return "Python {}".format(text.replace("_", " "))
 
