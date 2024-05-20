@@ -1,85 +1,64 @@
 #!/usr/bin/python3
-"""script that starts a Flask web application """
+"""
+A script that starts a Flask web application:
+"""
 
-from flask import Flask, render_template
+from flask import Flask
+from flask import render_template
+
 app = Flask(__name__)
-app.url_map.strict_slashes = False
 
 
-@app.route('/')
-def hello_hbnb():
+@app.route('/', strict_slashes=False)
+def hello_route():
     """
-    Defines a route for the root URL ("/") of the Flask application.
-    When a GET request is made to this URL, the function `hello_hbnb`
-    is called.
-    This function returns the string "Hello HBNB!".
-
-    Parameters:
-        None
-
+    Displays 'Hello HBNB!'
     Returns:
-        str: The string "Hello HBNB!"
+        str: "Hello HBNB"
     """
     return "Hello HBNB!"
 
 
-@app.route('/hbnb/')
-def hbnb():
+@app.route('/hbnb', strict_slashes=False)
+def hbnb_route():
     """
-    A Flask route decorator that handles requests to the '/hbnb' endpoint.
-
+    Displays 'HBNB'
     Returns:
-        str: The string "HBNB".
+        str: "HBNB"
     """
     return "HBNB"
 
 
-@app.route('/c/<text>')
-def c_text(text):
+@app.route('/c/<text>', strict_slashes=False)
+def c_route(text):
     """
-    A Flask route decorator that handles requests to the
-    '/c/<text>' endpoint.
-
-    Args:
-        text (str): The text parameter from the URL.
-
+    display “C ” followed by the value of the text variable
+        (replace underscore '_' symbols with a space ' ')
     Returns:
-        str: The string "C {text}", where {text} is the input text
-        with underscores replaced by spaces.
+        str: "C <text>"
     """
-    return "C {}".format(text.replace("_", " "))
+    return "C {}".format(text.replace('_', ' '))
 
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python_text(text="is cool"):
+def python_route(text="is_cool"):
     """
-    A Flask route decorator that handles requests to the
-    '/python/<text>' endpoint.
-
-    Args:
-        text (str): The text parameter from the URL.
-
+    display “Python ”, followed by the value of the text variable
+        (replace underscore _ symbols with a space )
+        - The default value of text is “is cool”
     Returns:
-        str: The string "Python {text}", where {text} is
-        the input text with underscores replaced by spaces.
+        str: "Python <text>"
     """
-    return "Python {}".format(text.replace("_", " "))
+    return "Python {}".format(text.replace('_', ' '))
 
 
-@app.route('/number/<int:n>')
-def number_n(n):
+@app.route('/number/<int:n>', strict_slashes=False)
+def number_route(n):
     """
-    A Flask route decorator that handles requests to
-    the '/number/<n>' endpoint .
-
-    Args:
-        n (str): The number parameter from the URL.
-
+    display “n is a number” only if n is an integer
     Returns:
-        str: The string "{n} is a number" if the input
-        can be converted to an integer,
-        otherwise the string "{n} is not a number".
+        int: the value of n
     """
     return "{} is a number".format(n)
 
@@ -106,5 +85,5 @@ def number_odd_or_even_route(n):
     return render_template('6-number_odd_or_even.html', n=n)
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
