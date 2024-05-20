@@ -95,18 +95,13 @@ def number_template_route(n):
     return render_template('5-number.html', n=n)
 
 
-@app.route('/number_odd_or_even/<int:n>')
-def number_odd_or_even(n):
+@app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
+def number_odd_or_even_route(n):
     """
-    A Flask route decorator that handles requests to
-    the '/number_odd_or_even/<int:n>' endpoint.
-
-    Args:
-        n (int): The number parameter from the URL.
-
+    display a HTML page only if n is an integer:
+        H1 tag: “Number: n is even|odd” inside the tag BODY
     Returns:
-        str: The rendered HTML template '6-number_odd_or_even.html'
-        with the value of 'n' passed to it .
+        html: template displaying the value of n stating if even or odd
     """
     return render_template('6-number_odd_or_even.html', n=n)
 
