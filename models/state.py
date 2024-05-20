@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-A module that defines the ORM class for State table
+A module that defines the ORM class for State table.
 """
 import os
 from models.base_model import Base, BaseModel
