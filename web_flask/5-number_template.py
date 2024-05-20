@@ -84,18 +84,13 @@ def number_n(n):
     return "{} is a number".format(n)
 
 
-@app.route('/number_template/<int:n>')
-def number_template(n):
+@app.route('/number_template/<int:n>', strict_slashes=False)
+def number_template_route(n):
     """
-    A Flask route decorator that handles requests to the
-    '/number_template/<int:n>' endpoint.
-
-    Args:
-        n (int): The number parameter from the URL .
-
+    display a HTML page only if n is an integer:
+        H1 tag: “Number: n” inside the tag BODY
     Returns:
-        str: The rendered HTML template '5-number.html'
-        with the variable 'n' passed to it.
+        html: template displaying the value of n
     """
     return render_template('5-number.html', n=n)
 
