@@ -71,7 +71,7 @@ def python_text(text="is cool"):
 def number_n(n):
     """
     A Flask route decorator that handles requests to
-    the '/number/<n>' endpoint.
+    the '/number/<n>' endpoint .
 
     Args:
         n (str): The number parameter from the URL.
