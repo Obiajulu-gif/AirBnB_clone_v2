@@ -106,7 +106,7 @@ def number_odd_or_even(n):
 
     Returns:
         str: The rendered HTML template '6-number_odd_or_even.html'
-        with the value of 'n' passed to it.
+        with the value of 'n' passed to it .
     """
     return render_template('6-number_odd_or_even.html', n=n)
 
