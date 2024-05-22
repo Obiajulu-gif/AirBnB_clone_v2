@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# check if the correct number of arguments is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
+
+# Get the filename from the argument
+filename="$1"
+
+# Check if the file exists
+if [ ! -f "$filename" ]; then
+    echo "Error: File '$filename' not found."
+    exit 1
+fi
+
+# Get the directory of the file
+directory=$(dirname "$filename")
+file=$(basename "$filename")
+
+# Set the FLASK_APP environment variable
+export FLASK_APP="$filename"
+export FLASK_ENV=development
+
+# Activate the virtual environment if it exists
+if [ -f "venv/bin/activate" ]; then
+    source "venv/bin/activate"
+else
+    echo "Warning: Virtual environment not found. Running without virtual environment."
+fi
+
+# Function to run Flask application with debug mode
+run_flask() {
+    flask run --host=0.0.0.0 --port=5000 --debug &
+    flask_pid=$!
+    echo "Flask server started with PID $flask_pid"
+}
+
+# Run the Flask application for the first time
+run_flask
+
